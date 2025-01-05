@@ -29,7 +29,7 @@ if (blocksDivEl) {
   blocksDivEl.style.height = "80vh";
   blocksDivEl.style.width = "80vw";
   blocksDivEl.style.position = "relative";
-  blocksDivEl.style.border = "1px solid grey";
+  blocksDivEl.style.border = "1px solid fafafa";
   blocksDivEl.style.borderRadius = "0";
   blocksDivEl.style.backgroundColor = "white";
   blocksDivEl.style.zIndex = "1"; // Place above borderEl
@@ -79,7 +79,7 @@ function generateGrid(number) {
 
   for (let i = 0; i < number * number; i++) {
     const block = document.createElement("div");
-    block.style.border = "1px solid lightgrey";
+    block.style.border = "1px solid #fafafa";
     block.style.boxSizing = "border-box";
     block.style.flex = `0 0 ${blockSize}%`; // Flex properties to control width
     block.style.height = `${blockSize}%`; // Height as a percentage of container height
@@ -91,7 +91,26 @@ function generateGrid(number) {
 
 // Function to handle hover effect
 function isHovered() {
-  this.style.backgroundColor = "#89CFF0"; // Change color on hover
+  // Track the hover count for each block
+  if (!this.hoverCount) {
+    this.hoverCount = 0; // Initialize the hover count
+  }
+
+  // Generate a random RGB color
+  const randomColor = `rgb(${randomValue()}, ${randomValue()}, ${randomValue()})`;
+
+  // Increase the opacity by 10% per hover, capped at 1 (100%)
+  this.hoverCount++;
+  const opacity = Math.min(this.hoverCount * 0.1, 1); // Ensure opacity doesn't exceed 1
+
+  // Apply the color and opacity
+  this.style.backgroundColor = randomColor;
+  this.style.opacity = opacity;
+}
+
+// Function to generate a random value between 0 and 255 for RGB color
+function randomValue() {
+  return Math.floor(Math.random() * 256);
 }
 
 // Initial grid generation
@@ -120,6 +139,8 @@ generateButton.addEventListener("click", function () {
 // Positioning the buttonsContainer above the blocksDiv
 
 const buttonsContainer = document.querySelector("#buttonsContainer");
+const generateButtonEl = document.querySelector("#generateButton");
+const gridSizeInputEl = document.querySelector("#gridSizeInput");
 
 if (buttonsContainer) {
   // Set position of the buttons container to absolute
@@ -128,3 +149,14 @@ if (buttonsContainer) {
   buttonsContainer.style.left = "50%";
   buttonsContainer.style.transform = "translateX(-50%)"; // Center horizontally
 }
+
+generateButtonEl.style.padding = "10px";
+generateButtonEl.style.backgroundColor = "#89CFF0";
+generateButtonEl.style.border = "1px solid #89CFF0";
+generateButtonEl.style.borderRadius = "5px";
+generateButtonEl.style.color = "white";
+generateButtonEl.style.fontWeight = "bold";
+
+gridSizeInputEl.style.padding = "10px";
+gridSizeInputEl.style.border = "1px solid #89CFF0";
+gridSizeInputEl.style.borderRadius = "5px";
